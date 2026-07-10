@@ -5,26 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alta de Colaborador · Oakberry Latam</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
 <style>
   :root{--oak:#4a1f60;--oak-pale:#f3edf7;--oak-dark:#280532;--accent:#b085d0;
     --text:#1a1a2e;--muted:#6b7280;--border:#e2d9ec;--bg:#f7f4fa;--white:#fff;
-    --green:#16a34a;--green-bg:#f0fdf4;--green-bd:#bbf7d0;--error:#dc2626;--error-bg:#fef2f2;}
+    --green:#16a34a;--green-bg:#f0fdf4;--green-bd:#bbf7d0;--error:#dc2626;--error-bg:#fef2f2;
+    --warn:#d97706;--warn-bg:#fffbeb;--warn-bd:#fde68a;}
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0 0 60px;}
 
-  /* HEADER */
   .header{background:var(--oak-dark);position:relative;overflow:hidden;}
   .header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(176,133,208,0.2) 0%,transparent 70%);}
   .header-inner{max-width:700px;margin:0 auto;padding:36px 24px 32px;position:relative;}
   .header-eyebrow{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
   .header-title{font-size:26px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
-  .header-title-icon{width:32px;height:32px;opacity:.9;}
+  .header-title svg{width:30px;height:30px;stroke:white;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:.9;flex-shrink:0;}
   .header-sub{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.5;}
   .header-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:4px 12px;font-size:11px;color:rgba(255,255,255,0.65);margin-top:14px;}
-  .header-badge-dot{width:6px;height:6px;background:#86efac;border-radius:50%;display:inline-block;}
+  .badge-dot{width:6px;height:6px;background:#86efac;border-radius:50%;display:inline-block;}
 
-  /* CARD */
   .card{max-width:700px;margin:28px auto 0;padding:0 16px;}
   .section{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px;}
   .section-head{background:var(--oak-pale);padding:12px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
@@ -33,23 +31,26 @@
   .section-title{font-size:12px;font-weight:700;color:var(--oak);text-transform:uppercase;letter-spacing:0.7px;}
   .section-body{padding:20px;}
 
-  /* FIELDS */
   .field{margin-bottom:16px;}.field:last-child{margin-bottom:0;}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
   label{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px;}
   label .req{color:var(--error);margin-left:2px;}
+
   .input-wrap{position:relative;}
-  .input-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:var(--muted);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;}
-  .input-wrap.textarea-wrap svg{top:13px;transform:none;}
+  .input-wrap svg.ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:var(--muted);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;}
+  .input-wrap.ta-wrap svg.ico{top:12px;transform:none;}
   .input-wrap input,.input-wrap select,.input-wrap textarea{padding-left:34px;}
+  .sel-arrow{position:absolute;right:11px;top:50%;transform:translateY(-50%);pointer-events:none;}
+  .sel-arrow svg{width:13px;height:13px;stroke:var(--muted);stroke-width:2;fill:none;}
+
   input,select,textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-size:13px;font-family:'Inter',sans-serif;color:var(--text);background:#fafaf9;transition:border-color .15s,box-shadow .15s;outline:none;appearance:none;-webkit-appearance:none;}
   input:focus,select:focus,textarea:focus{border-color:var(--oak);background:var(--white);box-shadow:0 0 0 3px rgba(74,31,96,0.1);}
   input.error,select.error,textarea.error{border-color:var(--error);background:var(--error-bg);}
-  .select-arrow{position:absolute;right:12px;top:50%;transform:translateY(-50%);pointer-events:none;}
-  .select-arrow svg{width:13px;height:13px;stroke:var(--muted);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
-  select{padding-right:30px;cursor:pointer;}
-  textarea{resize:vertical;min-height:80px;}
-  .err-msg{font-size:10px;color:var(--error);margin-top:4px;display:none;display:flex;align-items:center;gap:4px;}
+  select{padding-right:32px;cursor:pointer;}
+  textarea{resize:vertical;min-height:72px;}
+
+  .err-msg{font-size:10px;color:var(--error);margin-top:4px;display:none;align-items:center;gap:4px;}
   .err-msg svg{width:11px;height:11px;stroke:var(--error);stroke-width:2.5;fill:none;flex-shrink:0;}
   .field.has-error .err-msg{display:flex;}
 
@@ -58,10 +59,11 @@
   .upload-area{flex:1;border:2px dashed var(--border);border-radius:10px;padding:18px 14px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;background:#fafaf9;position:relative;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
   .upload-area:hover{border-color:var(--oak);background:var(--oak-pale);}
   .upload-area.has-file{border-color:var(--green);background:var(--green-bg);border-style:solid;}
+  .upload-area.warn-file{border-color:var(--warn);background:var(--warn-bg);border-style:solid;}
   .upload-area input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-  .upload-ico{width:28px;height:28px;stroke:var(--oak);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s;}
+  .upload-ico{width:26px;height:26px;stroke:var(--oak);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;}
   .upload-area.has-file .upload-ico{stroke:var(--green);}
-  .upload-lbl{font-size:11px;font-weight:600;color:var(--oak);transition:color .2s;}
+  .upload-lbl{font-size:11px;font-weight:600;color:var(--oak);}
   .upload-area.has-file .upload-lbl{color:var(--green);}
   .upload-hint{font-size:9px;color:var(--muted);}
   .upload-name{font-size:10px;font-weight:600;color:var(--green);display:none;}
@@ -70,7 +72,12 @@
   .foto-circle{width:84px;height:84px;border-radius:50%;border:3px solid var(--border);object-fit:cover;display:none;flex-shrink:0;}
   .foto-circle.visible{display:block;border-color:var(--oak);}
   .foto-placeholder{width:84px;height:84px;border-radius:50%;border:2px dashed var(--border);background:#f9f9f9;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .foto-placeholder svg{width:36px;height:36px;stroke:#c4b5d4;stroke-width:1.5;fill:none;}
+  .foto-placeholder svg{width:34px;height:34px;stroke:#c4b5d4;stroke-width:1.5;fill:none;}
+
+  /* ALERTA CARNET */
+  .carnet-alert{display:none;align-items:center;gap:8px;background:var(--warn-bg);border:1px solid var(--warn-bd);border-radius:8px;padding:10px 14px;margin-top:10px;font-size:11px;color:var(--warn);font-weight:600;}
+  .carnet-alert svg{width:16px;height:16px;stroke:var(--warn);stroke-width:2;fill:none;flex-shrink:0;}
+  .carnet-alert.visible{display:flex;}
 
   /* SUBMIT */
   .submit-area{max-width:700px;margin:0 auto;padding:0 16px;}
@@ -85,28 +92,28 @@
   .success-icon svg{width:34px;height:34px;stroke:var(--green);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
   .success-title{font-size:22px;font-weight:700;color:var(--oak);margin-bottom:8px;}
   .success-sub{font-size:13px;color:var(--muted);margin-bottom:28px;line-height:1.6;}
-  .btn-nuevo{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;background:transparent;border:1.5px solid var(--oak);color:var(--oak);border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;}
+  .btn-nuevo{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;background:transparent;border:1.5px solid var(--oak);color:var(--oak);border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;}
   .btn-nuevo svg{width:15px;height:15px;stroke:var(--oak);stroke-width:2;fill:none;}
   .btn-nuevo:hover{background:var(--oak-pale);}
   .footer{text-align:center;font-size:10px;color:#9ca3af;margin-top:32px;}
 
   .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.35);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg);}}
-  @media(max-width:560px){.row2{grid-template-columns:1fr;gap:0;}.upload-wrap{flex-direction:column;}.foto-placeholder,.foto-circle{display:none!important;}}
+  @media(max-width:560px){.row2,.row3{grid-template-columns:1fr;gap:0;}.upload-wrap{flex-direction:column;}.foto-placeholder,.foto-circle{display:none!important;}}
 </style>
 </head>
 <body>
 
 <div class="header">
   <div class="header-inner">
-    <img src="logo-oakberry.png" alt="Oakberry" style="height:48px;width:auto;display:block;margin-bottom:20px;opacity:0.95;">
+    <img src="logo-oakberry.png" alt="Oakberry" style="height:46px;width:auto;display:block;margin-bottom:20px;opacity:.95;">
     <div class="header-eyebrow">Oakberry Latam · Recursos Humanos</div>
     <h1 class="header-title">
-      <svg class="header-title-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       Alta de Colaborador
     </h1>
     <p class="header-sub">Completá el formulario con los datos del nuevo colaborador.<br>La información será enviada al equipo de RRHH.</p>
-    <div class="header-badge"><span class="header-badge-dot"></span> Información enviada de forma segura</div>
+    <div class="header-badge"><span class="badge-dot"></span> Información enviada de forma segura</div>
   </div>
 </div>
 
@@ -117,9 +124,7 @@
   <!-- DATOS PERSONALES -->
   <div class="section">
     <div class="section-head">
-      <div class="section-icon">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      </div>
+      <div class="section-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
       <span class="section-title">Datos Personales</span>
     </div>
     <div class="section-body">
@@ -127,7 +132,7 @@
       <div class="field" id="f-nombre">
         <label>Nombre Completo <span class="req">*</span></label>
         <div class="input-wrap">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
           <input type="text" id="nombre" placeholder="Ej: María González Pérez" autocomplete="name">
         </div>
         <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Este campo es requerido</div>
@@ -137,7 +142,7 @@
         <div class="field" id="f-cedula">
           <label>Cédula / DIMEX <span class="req">*</span></label>
           <div class="input-wrap">
-            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h4m-4 4h8m-8 4h6"/></svg>
+            <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h4m-4 4h8m-8 4h6"/></svg>
             <input type="text" id="cedula" placeholder="1-1234-5678" autocomplete="off">
           </div>
           <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Este campo es requerido</div>
@@ -145,25 +150,69 @@
         <div class="field" id="f-estadoCivil">
           <label>Estado Civil <span class="req">*</span></label>
           <div class="input-wrap" style="position:relative">
-            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <svg class="ico" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             <select id="estadoCivil">
               <option value="">Seleccionar…</option>
-              <option value="Soltero(a)">Soltero(a)</option>
-              <option value="Casado(a)">Casado(a)</option>
-              <option value="Divorciado(a)">Divorciado(a)</option>
-              <option value="Union libre">Unión libre</option>
+              <option>Soltero(a)</option>
+              <option>Casado(a)</option>
+              <option>Divorciado(a)</option>
+              <option>Union libre</option>
             </select>
-            <div class="select-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+            <div class="sel-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
           </div>
           <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Seleccioná una opción</div>
         </div>
       </div>
 
+      <!-- UBICACIÓN -->
+      <div class="field" id="f-pais">
+        <label>País <span class="req">*</span></label>
+        <div class="input-wrap" style="position:relative">
+          <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <select id="pais" onchange="onPaisChange()">
+            <option value="">Seleccionar…</option>
+            <option value="Costa Rica">Costa Rica</option>
+            <option value="Panama">Panamá</option>
+            <option value="Guatemala">Guatemala</option>
+            <option value="El Salvador">El Salvador</option>
+          </select>
+          <div class="sel-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </div>
+        <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Seleccioná un país</div>
+      </div>
+
+      <div class="row3" id="ubicacionLabels" style="display:none">
+        <div class="field" id="f-provincia">
+          <label id="lbl-provincia">Provincia <span class="req">*</span></label>
+          <div class="input-wrap">
+            <svg class="ico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <input type="text" id="provincia" placeholder="">
+          </div>
+          <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Este campo es requerido</div>
+        </div>
+        <div class="field" id="f-canton">
+          <label id="lbl-canton">Cantón <span class="req">*</span></label>
+          <div class="input-wrap">
+            <svg class="ico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <input type="text" id="canton" placeholder="">
+          </div>
+          <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Este campo es requerido</div>
+        </div>
+        <div class="field" id="f-distrito">
+          <label id="lbl-distrito">Distrito <span class="req">*</span></label>
+          <div class="input-wrap">
+            <svg class="ico" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <input type="text" id="distrito" placeholder="">
+          </div>
+          <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Este campo es requerido</div>
+        </div>
+      </div>
+
       <div class="field" id="f-direccion">
         <label>Dirección Exacta de Residencia <span class="req">*</span></label>
-        <div class="input-wrap textarea-wrap">
-          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <textarea id="direccion" rows="3" placeholder="Provincia, cantón, distrito, señas exactas…"></textarea>
+        <div class="input-wrap ta-wrap">
+          <svg class="ico" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          <textarea id="direccion" rows="3" placeholder="Señas exactas, frente a, contiguo a…"></textarea>
         </div>
         <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Este campo es requerido</div>
       </div>
@@ -174,18 +223,15 @@
   <!-- CONTRATACIÓN -->
   <div class="section">
     <div class="section-head">
-      <div class="section-icon">
-        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
-      </div>
+      <div class="section-icon"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></div>
       <span class="section-title">Datos de Contratación</span>
     </div>
     <div class="section-body">
-
       <div class="row2">
         <div class="field" id="f-fechaContratacion">
           <label>Fecha de Contratación <span class="req">*</span></label>
           <div class="input-wrap">
-            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
             <input type="date" id="fechaContratacion">
           </div>
           <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Este campo es requerido</div>
@@ -193,36 +239,32 @@
         <div class="field" id="f-jornada">
           <label>Jornada <span class="req">*</span></label>
           <div class="input-wrap" style="position:relative">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             <select id="jornada">
               <option value="">Seleccionar…</option>
-              <option value="Tiempo completo">Tiempo completo</option>
-              <option value="Medio tiempo">Medio tiempo</option>
+              <option>Tiempo completo</option>
+              <option>Medio tiempo</option>
             </select>
-            <div class="select-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
+            <div class="sel-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
           </div>
           <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Seleccioná una opción</div>
         </div>
       </div>
-
       <div class="field" id="f-salario">
         <label>Salario Ofrecido <span class="req">*</span></label>
         <div class="input-wrap">
-          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <svg class="ico" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
           <input type="text" id="salario" placeholder="Ej: 450,000" autocomplete="off" oninput="fmtSalario(this)">
         </div>
         <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Este campo es requerido</div>
       </div>
-
     </div>
   </div>
 
   <!-- DOCUMENTOS -->
   <div class="section">
     <div class="section-head">
-      <div class="section-icon">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-      </div>
+      <div class="section-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
       <span class="section-title">Documentos</span>
     </div>
     <div class="section-body">
@@ -253,6 +295,10 @@
           <span class="upload-hint">JPG, PNG o PDF · Máx. 5MB</span>
           <span class="upload-name" id="nomCarnet"></span>
         </div>
+        <div class="carnet-alert" id="carnetAlert">
+          <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          No se adjuntó carnet de manipulación de alimentos
+        </div>
       </div>
 
     </div>
@@ -270,9 +316,7 @@
 
 <!-- SUCCESS -->
 <div class="success-screen" id="successView">
-  <div class="success-icon">
-    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-  </div>
+  <div class="success-icon"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
   <h2 class="success-title">¡Alta enviada exitosamente!</h2>
   <p class="success-sub" id="successMsg"></p>
   <button class="btn-nuevo" onclick="reiniciar()">
@@ -285,44 +329,82 @@
 <script>
 var GAS_URL = 'https://script.google.com/macros/s/AKfycbyySvuaEDh91nyGZp3ZaceOkEhaFvZwdjkcX4_uUrr17QRNaAw1eBPgblaOaWlNXoxDsw/exec';
 
+// Labels por país
+var LABELS = {
+  'Costa Rica':  { p:'Provincia / Ciudad', c:'Cantón / Municipio', d:'Distrito / Zona' },
+  'Panama':      { p:'Provincia / Ciudad', c:'Distrito / Municipio', d:'Corregimiento / Zona' },
+  'Guatemala':   { p:'Departamento / Ciudad', c:'Municipio / Zona', d:'Aldea / Colonia' },
+  'El Salvador': { p:'Departamento / Ciudad', c:'Municipio / Zona', d:'Cantón / Caserío' },
+};
+
+function onPaisChange() {
+  var pais = document.getElementById('pais').value;
+  var wrap = document.getElementById('ubicacionLabels');
+  document.getElementById('f-pais').classList.remove('has-error');
+  document.getElementById('pais').classList.remove('error');
+
+  if (!pais) { wrap.style.display='none'; return; }
+
+  var lbl = LABELS[pais] || { p:'Provincia/Estado', c:'Cantón/Ciudad', d:'Distrito/Zona' };
+  document.getElementById('lbl-provincia').innerHTML = lbl.p + ' <span class="req">*</span>';
+  document.getElementById('lbl-canton').innerHTML    = lbl.c + ' <span class="req">*</span>';
+  document.getElementById('lbl-distrito').innerHTML  = lbl.d + ' <span class="req">*</span>';
+
+  document.getElementById('provincia').placeholder = 'Ej: ' + (pais==='Costa Rica'?'Alajuela':'...');
+  document.getElementById('canton').placeholder    = 'Ej: ' + (pais==='Costa Rica'?'Alajuela':'...');
+  document.getElementById('distrito').placeholder  = 'Ej: ' + (pais==='Costa Rica'?'San Antonio':'...');
+
+  wrap.style.display = 'grid';
+}
+
+// Validación
 var reqs = [
-  { id:'nombre',            fid:'f-nombre' },
-  { id:'cedula',            fid:'f-cedula' },
-  { id:'estadoCivil',       fid:'f-estadoCivil' },
-  { id:'direccion',         fid:'f-direccion' },
-  { id:'fechaContratacion', fid:'f-fechaContratacion' },
-  { id:'jornada',           fid:'f-jornada' },
-  { id:'salario',           fid:'f-salario' },
+  {id:'nombre',fid:'f-nombre'},
+  {id:'cedula',fid:'f-cedula'},
+  {id:'estadoCivil',fid:'f-estadoCivil'},
+  {id:'pais',fid:'f-pais'},
+  {id:'provincia',fid:'f-provincia'},
+  {id:'canton',fid:'f-canton'},
+  {id:'distrito',fid:'f-distrito'},
+  {id:'direccion',fid:'f-direccion'},
+  {id:'fechaContratacion',fid:'f-fechaContratacion'},
+  {id:'jornada',fid:'f-jornada'},
+  {id:'salario',fid:'f-salario'},
 ];
-reqs.forEach(function(r) {
-  document.getElementById(r.id).addEventListener('input', function() {
+reqs.forEach(function(r){
+  var el=document.getElementById(r.id);
+  if(el) el.addEventListener('input',function(){
     document.getElementById(r.fid).classList.remove('has-error');
-    document.getElementById(r.id).classList.remove('error');
+    el.classList.remove('error');
   });
 });
-function validar() {
-  var ok = true;
-  reqs.forEach(function(r) {
-    var el = document.getElementById(r.id);
-    if (!el.value.trim()) {
+
+function validar(){
+  var ok=true;
+  var paisSel = document.getElementById('pais').value;
+  reqs.forEach(function(r){
+    // omitir ubicacion si no hay pais aun
+    if(['provincia','canton','distrito'].indexOf(r.id)>=0 && !paisSel) return;
+    var el=document.getElementById(r.id);
+    if(!el||!el.value.trim()){
       document.getElementById(r.fid).classList.add('has-error');
-      el.classList.add('error');
-      ok = false;
+      if(el) el.classList.add('error');
+      ok=false;
     }
   });
   return ok;
 }
 
-function fmtSalario(el) {
-  var raw = el.value.replace(/[^\d]/g, '');
-  el.value = raw ? parseInt(raw,10).toLocaleString('es-CR') : '';
+function fmtSalario(el){
+  var raw=el.value.replace(/[^\d]/g,'');
+  el.value=raw?parseInt(raw,10).toLocaleString('es-CR'):'';
   document.getElementById('f-salario').classList.remove('has-error');
   el.classList.remove('error');
 }
 
 var fotoB64='', carnetB64='';
 
-function onFoto(input) {
+function onFoto(input){
   var file=input.files[0]; if(!file) return;
   if(file.size>5*1024*1024){alert('La foto supera los 5MB.');input.value='';return;}
   var r=new FileReader();
@@ -337,7 +419,7 @@ function onFoto(input) {
   r.readAsDataURL(file);
 }
 
-function onCarnet(input) {
+function onCarnet(input){
   var file=input.files[0]; if(!file) return;
   if(file.size>5*1024*1024){alert('El carnet supera los 5MB.');input.value='';return;}
   var r=new FileReader();
@@ -345,78 +427,134 @@ function onCarnet(input) {
     carnetB64=e.target.result;
     document.getElementById('areaCarnet').classList.add('has-file');
     document.getElementById('nomCarnet').textContent='✓ '+file.name;
+    document.getElementById('carnetAlert').classList.remove('visible');
   };
   r.readAsDataURL(file);
 }
 
-function buildHtml(d) {
-  var fotoTag=d.fotoB64
-    ?'<img src="'+d.fotoB64+'" width="90" height="90" style="border-radius:50%;object-fit:cover;border:3px solid #4a1f60;display:block;margin:0 auto 14px;">'
-    :'<div style="width:90px;height:90px;border-radius:50%;background:#f3edf7;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 14px;">&#128100;</div>';
-  var carnetTag=d.carnetB64
-    ?(d.carnetB64.indexOf('data:image')===0
-      ?'<img src="'+d.carnetB64+'" style="max-width:100%;border-radius:8px;border:1px solid #e2d9ec;margin-top:8px;">'
-      :'<p style="margin:6px 0 0;font-size:12px;color:#4b5563;background:#f3edf7;padding:8px 12px;border-radius:6px;">PDF adjunto en este correo</p>')
-    :'<p style="margin:6px 0 0;font-size:12px;color:#9ca3af;">No adjuntado</p>';
+// HTML del correo — tarjeta de presentación
+function buildHtml(d){
+  var fotoTag = d.fotoB64
+    ? '<img src="'+d.fotoB64+'" width="100" height="100" style="border-radius:50%;object-fit:cover;border:4px solid white;display:block;margin:0 auto;">'
+    : '<div style="width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:40px;border:4px solid rgba(255,255,255,0.3);">&#128100;</div>';
+
+  var carnetTag = d.carnetB64
+    ? (d.carnetB64.indexOf('data:image')===0
+        ? '<img src="'+d.carnetB64+'" style="max-width:100%;border-radius:8px;border:1px solid #e2d9ec;">'
+        : '<p style="margin:0;font-size:12px;color:#4b5563;background:#f3edf7;padding:8px 12px;border-radius:6px;">PDF adjunto en este correo</p>')
+    : '<div style="background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:12px 14px;display:flex;align-items:center;gap:10px;">'
+      +'<span style="font-size:20px;">⚠️</span>'
+      +'<div><p style="margin:0;font-size:12px;font-weight:700;color:#92400e;">No se adjuntó carnet de manipulación</p>'
+      +'<p style="margin:3px 0 0;font-size:11px;color:#b45309;">El colaborador debe presentarlo al momento de su ingreso.</p></div>'
+      +'</div>';
+
+  var ubicacion = [d.provincia, d.canton, d.distrito].filter(Boolean).join(', ');
 
   return '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"></head>'
     +'<body style="margin:0;padding:0;background:#f7f4fa;font-family:Segoe UI,Arial,sans-serif">'
     +'<table width="100%" cellpadding="0" cellspacing="0" style="background:#f7f4fa;padding:28px 0"><tr><td align="center">'
-    +'<table width="600" cellpadding="0" cellspacing="0" style="background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 16px rgba(74,31,96,0.12)">'
-    +'<tr><td style="background:#280532;padding:28px 32px">'
-    +'<p style="margin:0 0 6px;font-size:10px;color:#b085d0;letter-spacing:2px;text-transform:uppercase">Oakberry Latam &middot; Recursos Humanos</p>'
-    +'<h1 style="margin:0;color:white;font-size:22px;font-weight:700">Alta de Nuevo Colaborador</h1>'
+    +'<table width="600" cellpadding="0" cellspacing="0" style="background:white;border-radius:14px;overflow:hidden;box-shadow:0 4px 24px rgba(74,31,96,0.15)">'
+
+    // TARJETA DE PRESENTACIÓN
+    +'<tr><td style="background:linear-gradient(135deg,#280532 0%,#4a1f60 100%);padding:36px 32px 28px;text-align:center">'
+    +'<p style="margin:0 0 16px;font-size:10px;color:#b085d0;letter-spacing:2px;text-transform:uppercase">Oakberry Latam &middot; Recursos Humanos</p>'
+    + fotoTag
+    +'<h1 style="margin:14px 0 4px;color:white;font-size:24px;font-weight:700;letter-spacing:-0.3px">'+d.nombre+'</h1>'
+    +'<p style="margin:0 0 6px;font-size:13px;color:rgba(255,255,255,0.65)">'+d.jornada+'</p>'
+    +'<div style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:5px 14px;margin-top:8px">'
+    +'<span style="font-size:11px;color:rgba(255,255,255,0.8)">'+d.pais+'</span>'
+    +'</div>'
     +'</td></tr>'
-    +'<tr><td style="padding:28px 32px 16px;text-align:center">'+fotoTag
-    +'<p style="margin:0;font-size:20px;font-weight:700;color:#1a1a2e">'+d.nombre+'</p>'
-    +'<p style="margin:4px 0 0;font-size:12px;color:#7d5596">'+d.jornada+'</p>'
+
+    // DATOS EN PILLS
+    +'<tr><td style="padding:0 32px">'
+    +'<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:-1px">'
+    +'<tr>'
+    +'<td style="width:50%;padding:20px 12px 20px 0;border-right:1px solid #f3edf7;border-bottom:1px solid #f3edf7;vertical-align:top">'
+    +'<span style="display:block;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#b085d0;margin-bottom:4px">Cédula / DIMEX</span>'
+    +'<span style="font-size:14px;font-weight:600;color:#1a1a2e;font-family:monospace">'+d.cedula+'</span>'
+    +'</td>'
+    +'<td style="width:50%;padding:20px 0 20px 12px;border-bottom:1px solid #f3edf7;vertical-align:top">'
+    +'<span style="display:block;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#b085d0;margin-bottom:4px">Estado Civil</span>'
+    +'<span style="font-size:14px;font-weight:600;color:#1a1a2e">'+d.estadoCivil+'</span>'
+    +'</td>'
+    +'</tr>'
+    +'<tr>'
+    +'<td colspan="2" style="padding:20px 0;border-bottom:1px solid #f3edf7">'
+    +'<span style="display:block;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#b085d0;margin-bottom:4px">Ubicación</span>'
+    +'<span style="font-size:13px;font-weight:600;color:#1a1a2e">'+(ubicacion||'-')+'</span><br>'
+    +'<span style="font-size:12px;color:#6b7280;margin-top:2px;display:block">'+d.direccion+'</span>'
+    +'</td>'
+    +'</tr>'
+    +'</table>'
     +'</td></tr>'
+
+    // CONTRATACIÓN
     +'<tr><td style="padding:0 32px 20px">'
-    +'<p style="margin:0 0 10px;font-size:9px;font-weight:700;text-transform:uppercase;color:#7d5596;border-bottom:2px solid #f3edf7;padding-bottom:6px">Datos Personales</p>'
-    +'<table width="100%" cellpadding="0" cellspacing="6">'
-    +'<tr><td style="width:48%;padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Cedula / DIMEX</span><span style="font-size:13px;font-weight:600;color:#1a1a2e;font-family:monospace">'+d.cedula+'</span></td>'
-    +'<td style="padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Estado Civil</span><span style="font-size:13px;font-weight:600;color:#1a1a2e">'+d.estadoCivil+'</span></td></tr>'
-    +'<tr><td colspan="2" style="padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Direccion</span><span style="font-size:13px;font-weight:600;color:#1a1a2e">'+d.direccion+'</span></td></tr>'
-    +'</table></td></tr>'
-    +'<tr><td style="padding:0 32px 20px">'
-    +'<p style="margin:0 0 10px;font-size:9px;font-weight:700;text-transform:uppercase;color:#7d5596;border-bottom:2px solid #f3edf7;padding-bottom:6px">Contratacion</p>'
-    +'<table width="100%" cellpadding="0" cellspacing="6">'
-    +'<tr><td style="width:48%;padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Fecha</span><span style="font-size:13px;font-weight:600;color:#1a1a2e">'+d.fechaContratacion+'</span></td>'
-    +'<td style="padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Jornada</span><span style="font-size:13px;font-weight:600;color:#1a1a2e">'+d.jornada+'</span></td></tr>'
-    +'<tr><td colspan="2" style="padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Salario Ofrecido</span>'
-    +'<span style="font-size:18px;font-weight:800;color:#4a1f60">'+d.salario+'</span></td></tr>'
-    +'</table></td></tr>'
+    +'<p style="margin:20px 0 12px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#4a1f60;border-bottom:2px solid #f3edf7;padding-bottom:6px">Condiciones de Contratación</p>'
+    +'<table width="100%" cellpadding="0" cellspacing="0">'
+    +'<tr>'
+    +'<td style="width:33%;padding:5px 0;vertical-align:top">'
+    +'<span style="display:block;font-size:9px;color:#9ca3af;margin-bottom:3px">Fecha</span>'
+    +'<span style="font-size:13px;font-weight:600;color:#1a1a2e">'+d.fechaContratacion+'</span>'
+    +'</td>'
+    +'<td style="width:33%;padding:5px 0;vertical-align:top">'
+    +'<span style="display:block;font-size:9px;color:#9ca3af;margin-bottom:3px">Jornada</span>'
+    +'<span style="font-size:13px;font-weight:600;color:#1a1a2e">'+d.jornada+'</span>'
+    +'</td>'
+    +'<td style="width:33%;padding:5px 0;vertical-align:top">'
+    +'<span style="display:block;font-size:9px;color:#9ca3af;margin-bottom:3px">Salario</span>'
+    +'<span style="font-size:16px;font-weight:800;color:#4a1f60">'+d.salario+'</span>'
+    +'</td>'
+    +'</tr>'
+    +'</table>'
+    +'</td></tr>'
+
+    // CARNET
     +'<tr><td style="padding:0 32px 24px">'
-    +'<p style="margin:0 0 8px;font-size:9px;font-weight:700;text-transform:uppercase;color:#7d5596;border-bottom:2px solid #f3edf7;padding-bottom:6px">Carnet de Manipulacion</p>'
-    +carnetTag+'</td></tr>'
+    +'<p style="margin:0 0 10px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#4a1f60;border-bottom:2px solid #f3edf7;padding-bottom:6px">Carnet de Manipulación de Alimentos</p>'
+    + carnetTag
+    +'</td></tr>'
+
     +'<tr><td style="background:#280532;padding:14px 32px;text-align:center">'
-    +'<p style="margin:0;font-size:10px;color:#9d7ab8">Oakberry Latam &middot; Recursos Humanos</p>'
+    +'<p style="margin:0;font-size:10px;color:#9d7ab8">Oakberry Latam &middot; Recursos Humanos &middot; Generado automáticamente</p>'
     +'</td></tr>'
     +'</table></td></tr></table></body></html>';
 }
 
-function buildTexto(d) {
+function buildTexto(d){
   return 'ALTA DE COLABORADOR - Oakberry Latam\n'
     +'================================================\n'
     +'Nombre          : '+d.nombre+'\n'
     +'Cedula / DIMEX  : '+d.cedula+'\n'
     +'Estado civil    : '+d.estadoCivil+'\n'
+    +'Pais            : '+d.pais+'\n'
+    +'Provincia       : '+d.provincia+'\n'
+    +'Canton          : '+d.canton+'\n'
+    +'Distrito        : '+d.distrito+'\n'
     +'Direccion       : '+d.direccion+'\n'
     +'Fecha contrat.  : '+d.fechaContratacion+'\n'
     +'Jornada         : '+d.jornada+'\n'
     +'Salario         : '+d.salario+'\n'
-    +'Foto perfil     : '+(d.fotoB64?'Adjunta':'No adjunta')+'\n'
-    +'Carnet manip.   : '+(d.carnetB64?'Adjunto':'No adjunto')+'\n'
+    +'Foto perfil     : '+(d.fotoB64?'Adjunta (ver correo HTML)':'No adjunta')+'\n'
+    +'Carnet manip.   : '+(d.carnetB64?'Adjunto':'⚠ NO ADJUNTADO')+'\n'
     +'================================================\n'
     +'Enviado: '+new Date().toLocaleString('es-CR',{timeZone:'America/Costa_Rica'});
 }
 
-document.getElementById('colabForm').addEventListener('submit', function(e) {
+document.getElementById('colabForm').addEventListener('submit',function(e){
   e.preventDefault();
+
+  // Mostrar alerta de carnet si no se adjuntó
+  if(!carnetB64){
+    document.getElementById('carnetAlert').classList.add('visible');
+  }
+
   if(!validar()){
     var el=document.querySelector('.has-error input,.has-error select,.has-error textarea');
     if(el) el.focus(); return;
   }
+
   var btn=document.getElementById('btnSubmit');
   btn.disabled=true;
   btn.innerHTML='<span class="spinner"></span> Enviando…';
@@ -425,6 +563,10 @@ document.getElementById('colabForm').addEventListener('submit', function(e) {
     nombre:            document.getElementById('nombre').value.trim(),
     cedula:            document.getElementById('cedula').value.trim(),
     estadoCivil:       document.getElementById('estadoCivil').value,
+    pais:              document.getElementById('pais').value,
+    provincia:         document.getElementById('provincia').value.trim(),
+    canton:            document.getElementById('canton').value.trim(),
+    distrito:          document.getElementById('distrito').value.trim(),
     direccion:         document.getElementById('direccion').value.trim(),
     fechaContratacion: document.getElementById('fechaContratacion').value,
     jornada:           document.getElementById('jornada').value,
@@ -450,10 +592,11 @@ document.getElementById('colabForm').addEventListener('submit', function(e) {
     document.getElementById('successView').style.display='block';
     document.getElementById('successMsg').innerHTML=
       'El alta de <strong>'+datos.nombre+'</strong> fue enviada a RRHH.<br>'
-      +'Fecha de contrataci&oacute;n: <strong>'+datos.fechaContratacion+'</strong>';
+      +'Fecha de contrataci&oacute;n: <strong>'+datos.fechaContratacion+'</strong>'
+      +(!carnetB64?'<br><span style="color:#d97706;font-size:12px;">⚠ Sin carnet adjunto — recordar al colaborador</span>':'');
     window.scrollTo({top:0,behavior:'smooth'});
   })
-  .catch(function(err){ console.error(err); alert('Error al enviar. Intentá de nuevo.'); })
+  .catch(function(err){console.error(err);alert('Error al enviar. Intentá de nuevo.');})
   .finally(function(){
     btn.disabled=false;
     btn.innerHTML='<svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:white;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Enviar alta de colaborador';
@@ -465,9 +608,11 @@ function reiniciar(){
   fotoB64=''; carnetB64='';
   document.getElementById('areaFoto').classList.remove('has-file');
   document.getElementById('areaCarnet').classList.remove('has-file');
+  document.getElementById('carnetAlert').classList.remove('visible');
   var prev=document.getElementById('fotoPreview');
   prev.classList.remove('visible'); prev.src='';
   document.getElementById('fotoPlaceholder').style.display='flex';
+  document.getElementById('ubicacionLabels').style.display='none';
   document.getElementById('successView').style.display='none';
   document.getElementById('formView').style.display='block';
   window.scrollTo({top:0,behavior:'smooth'});
