@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alta de Colaborador · Oakberry Latam</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--oak:#4a1f60;--oak-pale:#f3edf7;--oak-dark:#280532;--accent:#b085d0;
+    --text:#1a1a2e;--muted:#6b7280;--border:#e2d9ec;--bg:#f7f4fa;--white:#fff;
+    --green:#16a34a;--green-bg:#f0fdf4;--green-bd:#bbf7d0;--error:#dc2626;--error-bg:#fef2f2;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0 0 60px;}
+
+  .header{background:var(--oak-dark);position:relative;overflow:hidden;}
+  .header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(176,133,208,0.2) 0%,transparent 70%);}
+  .header-inner{max-width:700px;margin:0 auto;padding:36px 24px 32px;position:relative;}
+  .header-eyebrow{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+  .header-title{font-size:26px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:8px;}
+  .header-sub{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.5;}
+  .header-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:4px 12px;font-size:11px;color:rgba(255,255,255,0.65);margin-top:14px;}
+  .header-badge span{color:#86efac;font-size:8px;}
+
+  .card{max-width:700px;margin:28px auto 0;padding:0 16px;}
+  .section{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px;}
+  .section-head{background:var(--oak-pale);padding:12px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+  .section-icon{width:28px;height:28px;background:var(--oak);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+  .section-title{font-size:12px;font-weight:700;color:var(--oak);text-transform:uppercase;letter-spacing:0.7px;}
+  .section-body{padding:20px;}
+
+  .field{margin-bottom:16px;}.field:last-child{margin-bottom:0;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  label{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px;}
+  label .req{color:var(--error);margin-left:2px;}
+  input,select,textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-size:13px;font-family:'Inter',sans-serif;color:var(--text);background:#fafaf9;transition:border-color .15s,box-shadow .15s;outline:none;appearance:none;-webkit-appearance:none;}
+  input:focus,select:focus,textarea:focus{border-color:var(--oak);background:var(--white);box-shadow:0 0 0 3px rgba(74,31,96,0.1);}
+  input.error,select.error,textarea.error{border-color:var(--error);background:var(--error-bg);}
+  .select-wrap{position:relative;}
+  .select-wrap::after{content:'▾';position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:11px;pointer-events:none;}
+  select{padding-right:30px;cursor:pointer;}
+  textarea{resize:vertical;min-height:80px;}
+  .err-msg{font-size:10px;color:var(--error);margin-top:4px;display:none;}
+  .field.has-error .err-msg{display:block;}
+
+  /* UPLOAD */
+  .upload-wrap{display:flex;gap:16px;align-items:flex-start;}
+  .upload-area{flex:1;border:2px dashed var(--border);border-radius:10px;padding:18px 14px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;background:#fafaf9;position:relative;min-height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+  .upload-area:hover{border-color:var(--oak);background:var(--oak-pale);}
+  .upload-area.has-file{border-color:var(--green);background:var(--green-bg);border-style:solid;}
+  .upload-area input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+  .upload-ico{font-size:22px;}
+  .upload-lbl{font-size:11px;font-weight:600;color:var(--oak);}
+  .upload-hint{font-size:9px;color:var(--muted);}
+  .upload-name{font-size:10px;font-weight:600;color:var(--green);display:none;}
+  .upload-area.has-file .upload-name{display:block;}
+  .upload-area.has-file .upload-ico{display:none;}
+  .upload-area.has-file .upload-lbl{color:var(--green);}
+
+  .foto-circle{width:80px;height:80px;border-radius:50%;border:3px solid var(--border);object-fit:cover;display:none;flex-shrink:0;}
+  .foto-circle.visible{display:block;border-color:var(--oak);}
+  .foto-placeholder{width:80px;height:80px;border-radius:50%;border:2px dashed var(--border);background:#f9f9f9;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
+
+  .submit-area{max-width:700px;margin:0 auto;padding:0 16px;}
+  .btn-submit{width:100%;padding:15px;background:var(--oak);color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:background .15s,box-shadow .15s;box-shadow:0 4px 14px rgba(74,31,96,0.35);}
+  .btn-submit:hover{background:#5e2a7a;}
+  .btn-submit:disabled{background:#a48ab8;box-shadow:none;cursor:not-allowed;}
+
+  .success-screen{display:none;max-width:700px;margin:48px auto 0;padding:0 16px;text-align:center;}
+  .success-icon{width:72px;height:72px;background:var(--green-bg);border:2px solid var(--green-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 20px;}
+  .success-title{font-size:22px;font-weight:700;color:var(--oak);margin-bottom:8px;}
+  .success-sub{font-size:13px;color:var(--muted);margin-bottom:28px;line-height:1.6;}
+  .btn-nuevo{display:inline-flex;align-items:center;gap:6px;padding:11px 24px;background:transparent;border:1.5px solid var(--oak);color:var(--oak);border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;}
+  .btn-nuevo:hover{background:var(--oak-pale);}
+  .footer{text-align:center;font-size:10px;color:#9ca3af;margin-top:32px;}
+
+  .spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,0.4);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;margin-right:8px;vertical-align:middle;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @media(max-width:560px){.row2{grid-template-columns:1fr;gap:0;}.upload-wrap{flex-direction:column;}.foto-placeholder,.foto-circle{display:none!important;}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-eyebrow">Oakberry Latam · Recursos Humanos</div>
+    <h1 class="header-title">Alta de Colaborador</h1>
+    <p class="header-sub">Completá el formulario con los datos del nuevo colaborador.<br>La información será enviada al equipo de RRHH.</p>
+    <div class="header-badge"><span>●</span> Información enviada de forma segura</div>
+  </div>
+</div>
+
+<div id="formView">
+<form id="colabForm" novalidate>
+<div class="card">
+
+  <!-- DATOS PERSONALES -->
+  <div class="section">
+    <div class="section-head"><div class="section-icon">👤</div><span class="section-title">Datos Personales</span></div>
+    <div class="section-body">
+
+      <div class="field" id="f-nombre">
+        <label>Nombre Completo <span class="req">*</span></label>
+        <input type="text" id="nombre" placeholder="Ej: María González Pérez" autocomplete="name">
+        <div class="err-msg">Este campo es requerido</div>
+      </div>
+
+      <div class="row2">
+        <div class="field" id="f-cedula">
+          <label>Cédula / DIMEX <span class="req">*</span></label>
+          <input type="text" id="cedula" placeholder="1-1234-5678" autocomplete="off">
+          <div class="err-msg">Este campo es requerido</div>
+        </div>
+        <div class="field" id="f-estadoCivil">
+          <label>Estado Civil <span class="req">*</span></label>
+          <div class="select-wrap">
+            <select id="estadoCivil">
+              <option value="">Seleccionar…</option>
+              <option value="Soltero(a)">Soltero(a)</option>
+              <option value="Casado(a)">Casado(a)</option>
+              <option value="Divorciado(a)">Divorciado(a)</option>
+              <option value="Union libre">Unión libre</option>
+            </select>
+          </div>
+          <div class="err-msg">Seleccioná una opción</div>
+        </div>
+      </div>
+
+      <div class="field" id="f-direccion">
+        <label>Dirección Exacta de Residencia <span class="req">*</span></label>
+        <textarea id="direccion" rows="3" placeholder="Provincia, cantón, distrito, señas exactas…"></textarea>
+        <div class="err-msg">Este campo es requerido</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONTRATACIÓN -->
+  <div class="section">
+    <div class="section-head"><div class="section-icon">💼</div><span class="section-title">Datos de Contratación</span></div>
+    <div class="section-body">
+
+      <div class="row2">
+        <div class="field" id="f-fechaContratacion">
+          <label>Fecha de Contratación <span class="req">*</span></label>
+          <input type="date" id="fechaContratacion">
+          <div class="err-msg">Este campo es requerido</div>
+        </div>
+        <div class="field" id="f-jornada">
+          <label>Jornada <span class="req">*</span></label>
+          <div class="select-wrap">
+            <select id="jornada">
+              <option value="">Seleccionar…</option>
+              <option value="Tiempo completo">Tiempo completo</option>
+              <option value="Medio tiempo">Medio tiempo</option>
+            </select>
+          </div>
+          <div class="err-msg">Seleccioná una opción</div>
+        </div>
+      </div>
+
+      <div class="field" id="f-salario">
+        <label>Salario Ofrecido <span class="req">*</span></label>
+        <input type="text" id="salario" placeholder="Ej: 450,000" autocomplete="off" oninput="fmtSalario(this)">
+        <div class="err-msg">Este campo es requerido</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DOCUMENTOS -->
+  <div class="section">
+    <div class="section-head"><div class="section-icon">📎</div><span class="section-title">Documentos</span></div>
+    <div class="section-body">
+
+      <div class="field">
+        <label>Foto de Perfil</label>
+        <div class="upload-wrap">
+          <div id="fotoPlaceholder" class="foto-placeholder">👤</div>
+          <img id="fotoPreview" class="foto-circle" alt="Foto">
+          <div class="upload-area" id="areaFoto">
+            <input type="file" id="fileFoto" accept="image/*" onchange="onFoto(this)">
+            <div class="upload-ico">📷</div>
+            <span class="upload-lbl">Clic para subir foto</span>
+            <span class="upload-hint">JPG o PNG · Máx. 5MB</span>
+            <span class="upload-name" id="nomFoto"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top:16px">
+        <label>Carnet de Manipulación de Alimentos</label>
+        <div class="upload-area" id="areaCarnet">
+          <input type="file" id="fileCarnet" accept="image/*,application/pdf" onchange="onCarnet(this)">
+          <div class="upload-ico">📄</div>
+          <span class="upload-lbl">Clic para subir carnet</span>
+          <span class="upload-hint">JPG, PNG o PDF · Máx. 5MB</span>
+          <span class="upload-name" id="nomCarnet"></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<div class="submit-area">
+  <button type="submit" class="btn-submit" id="btnSubmit">Enviar alta de colaborador →</button>
+</div>
+</form>
+</div>
+
+<!-- SUCCESS -->
+<div class="success-screen" id="successView">
+  <div class="success-icon">✅</div>
+  <h2 class="success-title">¡Alta enviada exitosamente!</h2>
+  <p class="success-sub" id="successMsg"></p>
+  <button class="btn-nuevo" onclick="reiniciar()">← Registrar otro colaborador</button>
+  <div class="footer" style="margin-top:24px">Oakberry Latam · Recursos Humanos</div>
+</div>
+
+<script>
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbyySvuaEDh91nyGZp3ZaceOkEhaFvZwdjkcX4_uUrr17QRNaAw1eBPgblaOaWlNXoxDsw/exec';
+
+// ── VALIDACIÓN ────────────────────────────────────────────────
+var reqs = [
+  { id:'nombre',            fid:'f-nombre' },
+  { id:'cedula',            fid:'f-cedula' },
+  { id:'estadoCivil',       fid:'f-estadoCivil' },
+  { id:'direccion',         fid:'f-direccion' },
+  { id:'fechaContratacion', fid:'f-fechaContratacion' },
+  { id:'jornada',           fid:'f-jornada' },
+  { id:'salario',           fid:'f-salario' },
+];
+reqs.forEach(function(r) {
+  document.getElementById(r.id).addEventListener('input', function() {
+    document.getElementById(r.fid).classList.remove('has-error');
+    document.getElementById(r.id).classList.remove('error');
+  });
+});
+function validar() {
+  var ok = true;
+  reqs.forEach(function(r) {
+    var el = document.getElementById(r.id);
+    if (!el.value.trim()) {
+      document.getElementById(r.fid).classList.add('has-error');
+      el.classList.add('error');
+      ok = false;
+    }
+  });
+  return ok;
+}
+
+// ── SALARIO ───────────────────────────────────────────────────
+function fmtSalario(el) {
+  var raw = el.value.replace(/[^\d]/g, '');
+  el.value = raw ? parseInt(raw, 10).toLocaleString('es-CR') : '';
+  document.getElementById('f-salario').classList.remove('has-error');
+  el.classList.remove('error');
+}
+
+// ── ARCHIVOS ──────────────────────────────────────────────────
+var fotoB64 = '', carnetB64 = '';
+
+function onFoto(input) {
+  var file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { alert('La foto supera los 5MB.'); input.value=''; return; }
+  var r = new FileReader();
+  r.onload = function(e) {
+    fotoB64 = e.target.result;
+    document.getElementById('areaFoto').classList.add('has-file');
+    document.getElementById('nomFoto').textContent = '✓ ' + file.name;
+    var prev = document.getElementById('fotoPreview');
+    var plac = document.getElementById('fotoPlaceholder');
+    prev.src = fotoB64;
+    prev.classList.add('visible');
+    plac.style.display = 'none';
+  };
+  r.readAsDataURL(file);
+}
+
+function onCarnet(input) {
+  var file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { alert('El carnet supera los 5MB.'); input.value=''; return; }
+  var r = new FileReader();
+  r.onload = function(e) {
+    carnetB64 = e.target.result;
+    document.getElementById('areaCarnet').classList.add('has-file');
+    document.getElementById('nomCarnet').textContent = '✓ ' + file.name;
+  };
+  r.readAsDataURL(file);
+}
+
+// ── HTML CORREO ───────────────────────────────────────────────
+function buildHtml(d) {
+  var fotoTag = d.fotoB64
+    ? '<img src="' + d.fotoB64 + '" width="90" height="90" style="border-radius:50%;object-fit:cover;border:3px solid #4a1f60;display:block;margin:0 auto 14px;">'
+    : '<div style="width:90px;height:90px;border-radius:50%;background:#f3edf7;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 14px;">👤</div>';
+
+  var carnetTag = d.carnetB64
+    ? (d.carnetB64.indexOf('data:image') === 0
+        ? '<img src="' + d.carnetB64 + '" style="max-width:100%;border-radius:8px;border:1px solid #e2d9ec;margin-top:8px;">'
+        : '<p style="margin:6px 0 0;font-size:12px;color:#4b5563;background:#f3edf7;padding:8px 12px;border-radius:6px;">📄 PDF adjunto en este correo</p>')
+    : '<p style="margin:6px 0 0;font-size:12px;color:#9ca3af;">No adjuntado</p>';
+
+  return '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"></head>'
+    +'<body style="margin:0;padding:0;background:#f7f4fa;font-family:Segoe UI,Arial,sans-serif">'
+    +'<table width="100%" cellpadding="0" cellspacing="0" style="background:#f7f4fa;padding:28px 0"><tr><td align="center">'
+    +'<table width="600" cellpadding="0" cellspacing="0" style="background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 16px rgba(74,31,96,0.12)">'
+    +'<tr><td style="background:#280532;padding:28px 32px">'
+    +'<p style="margin:0 0 6px;font-size:10px;color:#b085d0;letter-spacing:2px;text-transform:uppercase">Oakberry Latam &middot; Recursos Humanos</p>'
+    +'<h1 style="margin:0;color:white;font-size:22px;font-weight:700">Alta de Nuevo Colaborador</h1>'
+    +'</td></tr>'
+    +'<tr><td style="padding:28px 32px 16px;text-align:center">'
+    + fotoTag
+    +'<p style="margin:0;font-size:20px;font-weight:700;color:#1a1a2e">'+ d.nombre +'</p>'
+    +'<p style="margin:4px 0 0;font-size:12px;color:#7d5596">'+ d.jornada +'</p>'
+    +'</td></tr>'
+    +'<tr><td style="padding:0 32px 20px">'
+    +'<p style="margin:0 0 10px;font-size:9px;font-weight:700;text-transform:uppercase;color:#7d5596;border-bottom:2px solid #f3edf7;padding-bottom:6px">Datos Personales</p>'
+    +'<table width="100%" cellpadding="0" cellspacing="6">'
+    +'<tr>'
+    +'<td style="width:48%;padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Cedula / DIMEX</span><span style="font-size:13px;font-weight:600;color:#1a1a2e;font-family:monospace">'+ d.cedula +'</span></td>'
+    +'<td style="padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Estado Civil</span><span style="font-size:13px;font-weight:600;color:#1a1a2e">'+ d.estadoCivil +'</span></td>'
+    +'</tr>'
+    +'<tr><td colspan="2" style="padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Direccion de Residencia</span>'
+    +'<span style="font-size:13px;font-weight:600;color:#1a1a2e">'+ d.direccion +'</span></td></tr>'
+    +'</table></td></tr>'
+    +'<tr><td style="padding:0 32px 20px">'
+    +'<p style="margin:0 0 10px;font-size:9px;font-weight:700;text-transform:uppercase;color:#7d5596;border-bottom:2px solid #f3edf7;padding-bottom:6px">Condiciones de Contratacion</p>'
+    +'<table width="100%" cellpadding="0" cellspacing="6">'
+    +'<tr>'
+    +'<td style="width:48%;padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Fecha de Contratacion</span><span style="font-size:13px;font-weight:600;color:#1a1a2e">'+ d.fechaContratacion +'</span></td>'
+    +'<td style="padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Jornada</span><span style="font-size:13px;font-weight:600;color:#1a1a2e">'+ d.jornada +'</span></td>'
+    +'</tr>'
+    +'<tr><td colspan="2" style="padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Salario Ofrecido</span>'
+    +'<span style="font-size:18px;font-weight:800;color:#4a1f60">'+ d.salario +'</span></td></tr>'
+    +'</table></td></tr>'
+    +'<tr><td style="padding:0 32px 24px">'
+    +'<p style="margin:0 0 8px;font-size:9px;font-weight:700;text-transform:uppercase;color:#7d5596;border-bottom:2px solid #f3edf7;padding-bottom:6px">Carnet de Manipulacion de Alimentos</p>'
+    + carnetTag
+    +'</td></tr>'
+    +'<tr><td style="background:#280532;padding:14px 32px;text-align:center">'
+    +'<p style="margin:0;font-size:10px;color:#9d7ab8">Oakberry Latam &middot; Recursos Humanos</p>'
+    +'<p style="margin:3px 0 0;font-size:9px;color:#6b4e8a">Generado automaticamente &middot; No responder</p>'
+    +'</td></tr>'
+    +'</table></td></tr></table></body></html>';
+}
+
+function buildTexto(d) {
+  return 'ALTA DE COLABORADOR - Oakberry Latam\n'
+    +'================================================\n'
+    +'Nombre completo    : '+ d.nombre +'\n'
+    +'Cedula / DIMEX     : '+ d.cedula +'\n'
+    +'Estado civil       : '+ d.estadoCivil +'\n'
+    +'Direccion          : '+ d.direccion +'\n'
+    +'------------------------------------------------\n'
+    +'Fecha contratacion : '+ d.fechaContratacion +'\n'
+    +'Jornada            : '+ d.jornada +'\n'
+    +'Salario ofrecido   : '+ d.salario +'\n'
+    +'------------------------------------------------\n'
+    +'Foto perfil        : '+ (d.fotoB64   ? 'Adjunta' : 'No adjunta') +'\n'
+    +'Carnet manipulacion: '+ (d.carnetB64 ? 'Adjunto' : 'No adjunto') +'\n'
+    +'================================================\n'
+    +'Enviado: '+ new Date().toLocaleString('es-CR', { timeZone: 'America/Costa_Rica' });
+}
+
+// ── SUBMIT ────────────────────────────────────────────────────
+document.getElementById('colabForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  if (!validar()) {
+    var el = document.querySelector('.has-error input,.has-error select,.has-error textarea');
+    if (el) el.focus();
+    return;
+  }
+
+  var btn = document.getElementById('btnSubmit');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Enviando…';
+
+  var datos = {
+    nombre:            document.getElementById('nombre').value.trim(),
+    cedula:            document.getElementById('cedula').value.trim(),
+    estadoCivil:       document.getElementById('estadoCivil').value,
+    direccion:         document.getElementById('direccion').value.trim(),
+    fechaContratacion: document.getElementById('fechaContratacion').value,
+    jornada:           document.getElementById('jornada').value,
+    salario:           document.getElementById('salario').value.trim(),
+    fotoB64:           fotoB64,
+    carnetB64:         carnetB64,
+  };
+
+  var payload = {
+    asunto:      '[Oakberry] Alta de Colaborador: ' + datos.nombre,
+    htmlBody:    buildHtml(datos),
+    textoPlano:  buildTexto(datos),
+    datos:       datos,
+    fotoBase64:  fotoB64,
+    carnetBase64:carnetB64,
+  };
+
+  fetch(GAS_URL, {
+    method:  'POST',
+    mode:    'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(payload)
+  })
+  .then(function() {
+    document.getElementById('formView').style.display = 'none';
+    document.getElementById('successView').style.display = 'block';
+    document.getElementById('successMsg').innerHTML =
+      'El alta de <strong>' + datos.nombre + '</strong> fue enviada a RRHH.<br>'
+      + 'Fecha de contrataci&oacute;n: <strong>' + datos.fechaContratacion + '</strong>';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  })
+  .catch(function(err) {
+    console.error(err);
+    alert('Error al enviar. Intentá de nuevo.');
+  })
+  .finally(function() {
+    btn.disabled = false;
+    btn.textContent = 'Enviar alta de colaborador →';
+  });
+});
+
+function reiniciar() {
+  document.getElementById('colabForm').reset();
+  fotoB64 = ''; carnetB64 = '';
+  document.getElementById('areaFoto').classList.remove('has-file');
+  document.getElementById('areaCarnet').classList.remove('has-file');
+  var prev = document.getElementById('fotoPreview');
+  var plac = document.getElementById('fotoPlaceholder');
+  prev.classList.remove('visible');
+  prev.src = '';
+  plac.style.display = 'flex';
+  document.getElementById('successView').style.display = 'none';
+  document.getElementById('formView').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
