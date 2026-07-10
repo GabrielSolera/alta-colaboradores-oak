@@ -575,18 +575,15 @@ document.getElementById('colabForm').addEventListener('submit',function(e){
     carnetB64:         carnetB64,
   };
 
-  var fd = new FormData();
-  fd.append('asunto', '[Oakberry] Alta de Colaborador: '+datos.nombre);
-  fd.append('htmlBody', buildHtml(datos));
-  fd.append('textoPlano', buildTexto(datos));
-  fd.append('datos', JSON.stringify(datos));
-  fd.append('fotoBase64', fotoB64);
-  fd.append('carnetBase64', carnetB64);
-
   fetch(GAS_URL,{
     method:'POST',
     mode:'no-cors',
-    body: fd
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      asunto:'[Oakberry] Alta de Colaborador: '+datos.nombre,
+      htmlBody:buildHtml(datos),
+      textoPlano:buildTexto(datos),
+    })
   })
   .then(function(){
     document.getElementById('formView').style.display='none';
