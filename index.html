@@ -327,7 +327,7 @@
 </div>
 
 <script>
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbyySvuaEDh91nyGZp3ZaceOkEhaFvZwdjkcX4_uUrr17QRNaAw1eBPgblaOaWlNXoxDsw/exec';
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbwBqypfhBwjdfn_EMC28cVKUFKk7RnobmYqi8c5q0nIX_m0lsADZwv0l_dn2DoaJQxH/exec';
 
 // Labels por país
 var LABELS = {
@@ -397,7 +397,7 @@ function validar(){
 
 function fmtSalario(el){
   var raw=el.value.replace(/[^\d]/g,'');
-  el.value=raw?parseInt(raw,10).toLocaleString('es-CR'):'';
+  if(raw){ var n=parseInt(raw,10); el.value=n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,','); } else { el.value=''; }
   document.getElementById('f-salario').classList.remove('has-error');
   el.classList.remove('error');
 }
