@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alta de Colaborador · Oakberry Latam</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
 <style>
   :root{--oak:#4a1f60;--oak-pale:#f3edf7;--oak-dark:#280532;--accent:#b085d0;
     --text:#1a1a2e;--muted:#6b7280;--border:#e2d9ec;--bg:#f7f4fa;--white:#fff;
@@ -12,68 +13,84 @@
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:0 0 60px;}
 
+  /* HEADER */
   .header{background:var(--oak-dark);position:relative;overflow:hidden;}
   .header::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(176,133,208,0.2) 0%,transparent 70%);}
   .header-inner{max-width:700px;margin:0 auto;padding:36px 24px 32px;position:relative;}
   .header-eyebrow{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
-  .header-title{font-size:26px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:8px;}
+  .header-title{font-size:26px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
+  .header-title-icon{width:32px;height:32px;opacity:.9;}
   .header-sub{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.5;}
   .header-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:4px 12px;font-size:11px;color:rgba(255,255,255,0.65);margin-top:14px;}
-  .header-badge span{color:#86efac;font-size:8px;}
+  .header-badge-dot{width:6px;height:6px;background:#86efac;border-radius:50%;display:inline-block;}
 
+  /* CARD */
   .card{max-width:700px;margin:28px auto 0;padding:0 16px;}
   .section{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px;}
   .section-head{background:var(--oak-pale);padding:12px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
-  .section-icon{width:28px;height:28px;background:var(--oak);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+  .section-icon{width:30px;height:30px;background:var(--oak);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .section-icon svg{width:16px;height:16px;stroke:white;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
   .section-title{font-size:12px;font-weight:700;color:var(--oak);text-transform:uppercase;letter-spacing:0.7px;}
   .section-body{padding:20px;}
 
+  /* FIELDS */
   .field{margin-bottom:16px;}.field:last-child{margin-bottom:0;}
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
   label{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px;}
   label .req{color:var(--error);margin-left:2px;}
+  .input-wrap{position:relative;}
+  .input-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:var(--muted);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;}
+  .input-wrap.textarea-wrap svg{top:13px;transform:none;}
+  .input-wrap input,.input-wrap select,.input-wrap textarea{padding-left:34px;}
   input,select,textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-size:13px;font-family:'Inter',sans-serif;color:var(--text);background:#fafaf9;transition:border-color .15s,box-shadow .15s;outline:none;appearance:none;-webkit-appearance:none;}
   input:focus,select:focus,textarea:focus{border-color:var(--oak);background:var(--white);box-shadow:0 0 0 3px rgba(74,31,96,0.1);}
   input.error,select.error,textarea.error{border-color:var(--error);background:var(--error-bg);}
-  .select-wrap{position:relative;}
-  .select-wrap::after{content:'▾';position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:11px;pointer-events:none;}
+  .select-arrow{position:absolute;right:12px;top:50%;transform:translateY(-50%);pointer-events:none;}
+  .select-arrow svg{width:13px;height:13px;stroke:var(--muted);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
   select{padding-right:30px;cursor:pointer;}
   textarea{resize:vertical;min-height:80px;}
-  .err-msg{font-size:10px;color:var(--error);margin-top:4px;display:none;}
-  .field.has-error .err-msg{display:block;}
+  .err-msg{font-size:10px;color:var(--error);margin-top:4px;display:none;display:flex;align-items:center;gap:4px;}
+  .err-msg svg{width:11px;height:11px;stroke:var(--error);stroke-width:2.5;fill:none;flex-shrink:0;}
+  .field.has-error .err-msg{display:flex;}
 
   /* UPLOAD */
   .upload-wrap{display:flex;gap:16px;align-items:flex-start;}
-  .upload-area{flex:1;border:2px dashed var(--border);border-radius:10px;padding:18px 14px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;background:#fafaf9;position:relative;min-height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+  .upload-area{flex:1;border:2px dashed var(--border);border-radius:10px;padding:18px 14px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;background:#fafaf9;position:relative;min-height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
   .upload-area:hover{border-color:var(--oak);background:var(--oak-pale);}
   .upload-area.has-file{border-color:var(--green);background:var(--green-bg);border-style:solid;}
   .upload-area input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
-  .upload-ico{font-size:22px;}
-  .upload-lbl{font-size:11px;font-weight:600;color:var(--oak);}
+  .upload-ico{width:28px;height:28px;stroke:var(--oak);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke .2s;}
+  .upload-area.has-file .upload-ico{stroke:var(--green);}
+  .upload-lbl{font-size:11px;font-weight:600;color:var(--oak);transition:color .2s;}
+  .upload-area.has-file .upload-lbl{color:var(--green);}
   .upload-hint{font-size:9px;color:var(--muted);}
   .upload-name{font-size:10px;font-weight:600;color:var(--green);display:none;}
   .upload-area.has-file .upload-name{display:block;}
-  .upload-area.has-file .upload-ico{display:none;}
-  .upload-area.has-file .upload-lbl{color:var(--green);}
 
-  .foto-circle{width:80px;height:80px;border-radius:50%;border:3px solid var(--border);object-fit:cover;display:none;flex-shrink:0;}
+  .foto-circle{width:84px;height:84px;border-radius:50%;border:3px solid var(--border);object-fit:cover;display:none;flex-shrink:0;}
   .foto-circle.visible{display:block;border-color:var(--oak);}
-  .foto-placeholder{width:80px;height:80px;border-radius:50%;border:2px dashed var(--border);background:#f9f9f9;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
+  .foto-placeholder{width:84px;height:84px;border-radius:50%;border:2px dashed var(--border);background:#f9f9f9;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .foto-placeholder svg{width:36px;height:36px;stroke:#c4b5d4;stroke-width:1.5;fill:none;}
 
+  /* SUBMIT */
   .submit-area{max-width:700px;margin:0 auto;padding:0 16px;}
-  .btn-submit{width:100%;padding:15px;background:var(--oak);color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:background .15s,box-shadow .15s;box-shadow:0 4px 14px rgba(74,31,96,0.35);}
+  .btn-submit{width:100%;padding:15px;background:var(--oak);color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:background .15s,box-shadow .15s;box-shadow:0 4px 14px rgba(74,31,96,0.35);display:flex;align-items:center;justify-content:center;gap:8px;}
+  .btn-submit svg{width:18px;height:18px;stroke:white;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
   .btn-submit:hover{background:#5e2a7a;}
   .btn-submit:disabled{background:#a48ab8;box-shadow:none;cursor:not-allowed;}
 
+  /* SUCCESS */
   .success-screen{display:none;max-width:700px;margin:48px auto 0;padding:0 16px;text-align:center;}
-  .success-icon{width:72px;height:72px;background:var(--green-bg);border:2px solid var(--green-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 20px;}
+  .success-icon{width:72px;height:72px;background:var(--green-bg);border:2px solid var(--green-bd);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+  .success-icon svg{width:34px;height:34px;stroke:var(--green);stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
   .success-title{font-size:22px;font-weight:700;color:var(--oak);margin-bottom:8px;}
   .success-sub{font-size:13px;color:var(--muted);margin-bottom:28px;line-height:1.6;}
-  .btn-nuevo{display:inline-flex;align-items:center;gap:6px;padding:11px 24px;background:transparent;border:1.5px solid var(--oak);color:var(--oak);border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;}
+  .btn-nuevo{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;background:transparent;border:1.5px solid var(--oak);color:var(--oak);border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;}
+  .btn-nuevo svg{width:15px;height:15px;stroke:var(--oak);stroke-width:2;fill:none;}
   .btn-nuevo:hover{background:var(--oak-pale);}
   .footer{text-align:center;font-size:10px;color:#9ca3af;margin-top:32px;}
 
-  .spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,0.4);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;margin-right:8px;vertical-align:middle;}
+  .spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.35);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;}
   @keyframes spin{to{transform:rotate(360deg);}}
   @media(max-width:560px){.row2{grid-template-columns:1fr;gap:0;}.upload-wrap{flex-direction:column;}.foto-placeholder,.foto-circle{display:none!important;}}
 </style>
@@ -82,10 +99,14 @@
 
 <div class="header">
   <div class="header-inner">
+    <img src="Logo_Primary_Macaw_Offwhite__2_.png" alt="Oakberry" style="height:48px;width:auto;display:block;margin-bottom:20px;opacity:0.95;">
     <div class="header-eyebrow">Oakberry Latam · Recursos Humanos</div>
-    <h1 class="header-title">Alta de Colaborador</h1>
+    <h1 class="header-title">
+      <svg class="header-title-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Alta de Colaborador
+    </h1>
     <p class="header-sub">Completá el formulario con los datos del nuevo colaborador.<br>La información será enviada al equipo de RRHH.</p>
-    <div class="header-badge"><span>●</span> Información enviada de forma segura</div>
+    <div class="header-badge"><span class="header-badge-dot"></span> Información enviada de forma segura</div>
   </div>
 </div>
 
@@ -95,24 +116,36 @@
 
   <!-- DATOS PERSONALES -->
   <div class="section">
-    <div class="section-head"><div class="section-icon">👤</div><span class="section-title">Datos Personales</span></div>
+    <div class="section-head">
+      <div class="section-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      </div>
+      <span class="section-title">Datos Personales</span>
+    </div>
     <div class="section-body">
 
       <div class="field" id="f-nombre">
         <label>Nombre Completo <span class="req">*</span></label>
-        <input type="text" id="nombre" placeholder="Ej: María González Pérez" autocomplete="name">
-        <div class="err-msg">Este campo es requerido</div>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <input type="text" id="nombre" placeholder="Ej: María González Pérez" autocomplete="name">
+        </div>
+        <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Este campo es requerido</div>
       </div>
 
       <div class="row2">
         <div class="field" id="f-cedula">
           <label>Cédula / DIMEX <span class="req">*</span></label>
-          <input type="text" id="cedula" placeholder="1-1234-5678" autocomplete="off">
-          <div class="err-msg">Este campo es requerido</div>
+          <div class="input-wrap">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h4m-4 4h8m-8 4h6"/></svg>
+            <input type="text" id="cedula" placeholder="1-1234-5678" autocomplete="off">
+          </div>
+          <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Este campo es requerido</div>
         </div>
         <div class="field" id="f-estadoCivil">
           <label>Estado Civil <span class="req">*</span></label>
-          <div class="select-wrap">
+          <div class="input-wrap" style="position:relative">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             <select id="estadoCivil">
               <option value="">Seleccionar…</option>
               <option value="Soltero(a)">Soltero(a)</option>
@@ -120,15 +153,19 @@
               <option value="Divorciado(a)">Divorciado(a)</option>
               <option value="Union libre">Unión libre</option>
             </select>
+            <div class="select-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
           </div>
-          <div class="err-msg">Seleccioná una opción</div>
+          <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Seleccioná una opción</div>
         </div>
       </div>
 
       <div class="field" id="f-direccion">
         <label>Dirección Exacta de Residencia <span class="req">*</span></label>
-        <textarea id="direccion" rows="3" placeholder="Provincia, cantón, distrito, señas exactas…"></textarea>
-        <div class="err-msg">Este campo es requerido</div>
+        <div class="input-wrap textarea-wrap">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <textarea id="direccion" rows="3" placeholder="Provincia, cantón, distrito, señas exactas…"></textarea>
+        </div>
+        <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Este campo es requerido</div>
       </div>
 
     </div>
@@ -136,32 +173,45 @@
 
   <!-- CONTRATACIÓN -->
   <div class="section">
-    <div class="section-head"><div class="section-icon">💼</div><span class="section-title">Datos de Contratación</span></div>
+    <div class="section-head">
+      <div class="section-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+      </div>
+      <span class="section-title">Datos de Contratación</span>
+    </div>
     <div class="section-body">
 
       <div class="row2">
         <div class="field" id="f-fechaContratacion">
           <label>Fecha de Contratación <span class="req">*</span></label>
-          <input type="date" id="fechaContratacion">
-          <div class="err-msg">Este campo es requerido</div>
+          <div class="input-wrap">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <input type="date" id="fechaContratacion">
+          </div>
+          <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Este campo es requerido</div>
         </div>
         <div class="field" id="f-jornada">
           <label>Jornada <span class="req">*</span></label>
-          <div class="select-wrap">
+          <div class="input-wrap" style="position:relative">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             <select id="jornada">
               <option value="">Seleccionar…</option>
               <option value="Tiempo completo">Tiempo completo</option>
               <option value="Medio tiempo">Medio tiempo</option>
             </select>
+            <div class="select-arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
           </div>
-          <div class="err-msg">Seleccioná una opción</div>
+          <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Seleccioná una opción</div>
         </div>
       </div>
 
       <div class="field" id="f-salario">
         <label>Salario Ofrecido <span class="req">*</span></label>
-        <input type="text" id="salario" placeholder="Ej: 450,000" autocomplete="off" oninput="fmtSalario(this)">
-        <div class="err-msg">Este campo es requerido</div>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <input type="text" id="salario" placeholder="Ej: 450,000" autocomplete="off" oninput="fmtSalario(this)">
+        </div>
+        <div class="err-msg"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Este campo es requerido</div>
       </div>
 
     </div>
@@ -169,18 +219,25 @@
 
   <!-- DOCUMENTOS -->
   <div class="section">
-    <div class="section-head"><div class="section-icon">📎</div><span class="section-title">Documentos</span></div>
+    <div class="section-head">
+      <div class="section-icon">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+      </div>
+      <span class="section-title">Documentos</span>
+    </div>
     <div class="section-body">
 
       <div class="field">
         <label>Foto de Perfil</label>
         <div class="upload-wrap">
-          <div id="fotoPlaceholder" class="foto-placeholder">👤</div>
+          <div id="fotoPlaceholder" class="foto-placeholder">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          </div>
           <img id="fotoPreview" class="foto-circle" alt="Foto">
           <div class="upload-area" id="areaFoto">
             <input type="file" id="fileFoto" accept="image/*" onchange="onFoto(this)">
-            <div class="upload-ico">📷</div>
-            <span class="upload-lbl">Clic para subir foto</span>
+            <svg class="upload-ico" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span class="upload-lbl">Subir foto de perfil</span>
             <span class="upload-hint">JPG o PNG · Máx. 5MB</span>
             <span class="upload-name" id="nomFoto"></span>
           </div>
@@ -191,8 +248,8 @@
         <label>Carnet de Manipulación de Alimentos</label>
         <div class="upload-area" id="areaCarnet">
           <input type="file" id="fileCarnet" accept="image/*,application/pdf" onchange="onCarnet(this)">
-          <div class="upload-ico">📄</div>
-          <span class="upload-lbl">Clic para subir carnet</span>
+          <svg class="upload-ico" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          <span class="upload-lbl">Subir carnet de manipulación</span>
           <span class="upload-hint">JPG, PNG o PDF · Máx. 5MB</span>
           <span class="upload-name" id="nomCarnet"></span>
         </div>
@@ -203,24 +260,31 @@
 
 </div>
 <div class="submit-area">
-  <button type="submit" class="btn-submit" id="btnSubmit">Enviar alta de colaborador →</button>
+  <button type="submit" class="btn-submit" id="btnSubmit">
+    <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    Enviar alta de colaborador
+  </button>
 </div>
 </form>
 </div>
 
 <!-- SUCCESS -->
 <div class="success-screen" id="successView">
-  <div class="success-icon">✅</div>
+  <div class="success-icon">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
   <h2 class="success-title">¡Alta enviada exitosamente!</h2>
   <p class="success-sub" id="successMsg"></p>
-  <button class="btn-nuevo" onclick="reiniciar()">← Registrar otro colaborador</button>
+  <button class="btn-nuevo" onclick="reiniciar()">
+    <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    Registrar otro colaborador
+  </button>
   <div class="footer" style="margin-top:24px">Oakberry Latam · Recursos Humanos</div>
 </div>
 
 <script>
 var GAS_URL = 'https://script.google.com/macros/s/AKfycbyySvuaEDh91nyGZp3ZaceOkEhaFvZwdjkcX4_uUrr17QRNaAw1eBPgblaOaWlNXoxDsw/exec';
 
-// ── VALIDACIÓN ────────────────────────────────────────────────
 var reqs = [
   { id:'nombre',            fid:'f-nombre' },
   { id:'cedula',            fid:'f-cedula' },
@@ -249,59 +313,51 @@ function validar() {
   return ok;
 }
 
-// ── SALARIO ───────────────────────────────────────────────────
 function fmtSalario(el) {
   var raw = el.value.replace(/[^\d]/g, '');
-  el.value = raw ? parseInt(raw, 10).toLocaleString('es-CR') : '';
+  el.value = raw ? parseInt(raw,10).toLocaleString('es-CR') : '';
   document.getElementById('f-salario').classList.remove('has-error');
   el.classList.remove('error');
 }
 
-// ── ARCHIVOS ──────────────────────────────────────────────────
-var fotoB64 = '', carnetB64 = '';
+var fotoB64='', carnetB64='';
 
 function onFoto(input) {
-  var file = input.files[0];
-  if (!file) return;
-  if (file.size > 5 * 1024 * 1024) { alert('La foto supera los 5MB.'); input.value=''; return; }
-  var r = new FileReader();
-  r.onload = function(e) {
-    fotoB64 = e.target.result;
+  var file=input.files[0]; if(!file) return;
+  if(file.size>5*1024*1024){alert('La foto supera los 5MB.');input.value='';return;}
+  var r=new FileReader();
+  r.onload=function(e){
+    fotoB64=e.target.result;
     document.getElementById('areaFoto').classList.add('has-file');
-    document.getElementById('nomFoto').textContent = '✓ ' + file.name;
-    var prev = document.getElementById('fotoPreview');
-    var plac = document.getElementById('fotoPlaceholder');
-    prev.src = fotoB64;
-    prev.classList.add('visible');
-    plac.style.display = 'none';
+    document.getElementById('nomFoto').textContent='✓ '+file.name;
+    var prev=document.getElementById('fotoPreview');
+    prev.src=fotoB64; prev.classList.add('visible');
+    document.getElementById('fotoPlaceholder').style.display='none';
   };
   r.readAsDataURL(file);
 }
 
 function onCarnet(input) {
-  var file = input.files[0];
-  if (!file) return;
-  if (file.size > 5 * 1024 * 1024) { alert('El carnet supera los 5MB.'); input.value=''; return; }
-  var r = new FileReader();
-  r.onload = function(e) {
-    carnetB64 = e.target.result;
+  var file=input.files[0]; if(!file) return;
+  if(file.size>5*1024*1024){alert('El carnet supera los 5MB.');input.value='';return;}
+  var r=new FileReader();
+  r.onload=function(e){
+    carnetB64=e.target.result;
     document.getElementById('areaCarnet').classList.add('has-file');
-    document.getElementById('nomCarnet').textContent = '✓ ' + file.name;
+    document.getElementById('nomCarnet').textContent='✓ '+file.name;
   };
   r.readAsDataURL(file);
 }
 
-// ── HTML CORREO ───────────────────────────────────────────────
 function buildHtml(d) {
-  var fotoTag = d.fotoB64
-    ? '<img src="' + d.fotoB64 + '" width="90" height="90" style="border-radius:50%;object-fit:cover;border:3px solid #4a1f60;display:block;margin:0 auto 14px;">'
-    : '<div style="width:90px;height:90px;border-radius:50%;background:#f3edf7;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 14px;">👤</div>';
-
-  var carnetTag = d.carnetB64
-    ? (d.carnetB64.indexOf('data:image') === 0
-        ? '<img src="' + d.carnetB64 + '" style="max-width:100%;border-radius:8px;border:1px solid #e2d9ec;margin-top:8px;">'
-        : '<p style="margin:6px 0 0;font-size:12px;color:#4b5563;background:#f3edf7;padding:8px 12px;border-radius:6px;">📄 PDF adjunto en este correo</p>')
-    : '<p style="margin:6px 0 0;font-size:12px;color:#9ca3af;">No adjuntado</p>';
+  var fotoTag=d.fotoB64
+    ?'<img src="'+d.fotoB64+'" width="90" height="90" style="border-radius:50%;object-fit:cover;border:3px solid #4a1f60;display:block;margin:0 auto 14px;">'
+    :'<div style="width:90px;height:90px;border-radius:50%;background:#f3edf7;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 14px;">&#128100;</div>';
+  var carnetTag=d.carnetB64
+    ?(d.carnetB64.indexOf('data:image')===0
+      ?'<img src="'+d.carnetB64+'" style="max-width:100%;border-radius:8px;border:1px solid #e2d9ec;margin-top:8px;">'
+      :'<p style="margin:6px 0 0;font-size:12px;color:#4b5563;background:#f3edf7;padding:8px 12px;border-radius:6px;">PDF adjunto en este correo</p>')
+    :'<p style="margin:6px 0 0;font-size:12px;color:#9ca3af;">No adjuntado</p>';
 
   return '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"></head>'
     +'<body style="margin:0;padding:0;background:#f7f4fa;font-family:Segoe UI,Arial,sans-serif">'
@@ -311,38 +367,30 @@ function buildHtml(d) {
     +'<p style="margin:0 0 6px;font-size:10px;color:#b085d0;letter-spacing:2px;text-transform:uppercase">Oakberry Latam &middot; Recursos Humanos</p>'
     +'<h1 style="margin:0;color:white;font-size:22px;font-weight:700">Alta de Nuevo Colaborador</h1>'
     +'</td></tr>'
-    +'<tr><td style="padding:28px 32px 16px;text-align:center">'
-    + fotoTag
-    +'<p style="margin:0;font-size:20px;font-weight:700;color:#1a1a2e">'+ d.nombre +'</p>'
-    +'<p style="margin:4px 0 0;font-size:12px;color:#7d5596">'+ d.jornada +'</p>'
+    +'<tr><td style="padding:28px 32px 16px;text-align:center">'+fotoTag
+    +'<p style="margin:0;font-size:20px;font-weight:700;color:#1a1a2e">'+d.nombre+'</p>'
+    +'<p style="margin:4px 0 0;font-size:12px;color:#7d5596">'+d.jornada+'</p>'
     +'</td></tr>'
     +'<tr><td style="padding:0 32px 20px">'
     +'<p style="margin:0 0 10px;font-size:9px;font-weight:700;text-transform:uppercase;color:#7d5596;border-bottom:2px solid #f3edf7;padding-bottom:6px">Datos Personales</p>'
     +'<table width="100%" cellpadding="0" cellspacing="6">'
-    +'<tr>'
-    +'<td style="width:48%;padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Cedula / DIMEX</span><span style="font-size:13px;font-weight:600;color:#1a1a2e;font-family:monospace">'+ d.cedula +'</span></td>'
-    +'<td style="padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Estado Civil</span><span style="font-size:13px;font-weight:600;color:#1a1a2e">'+ d.estadoCivil +'</span></td>'
-    +'</tr>'
-    +'<tr><td colspan="2" style="padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Direccion de Residencia</span>'
-    +'<span style="font-size:13px;font-weight:600;color:#1a1a2e">'+ d.direccion +'</span></td></tr>'
+    +'<tr><td style="width:48%;padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Cedula / DIMEX</span><span style="font-size:13px;font-weight:600;color:#1a1a2e;font-family:monospace">'+d.cedula+'</span></td>'
+    +'<td style="padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Estado Civil</span><span style="font-size:13px;font-weight:600;color:#1a1a2e">'+d.estadoCivil+'</span></td></tr>'
+    +'<tr><td colspan="2" style="padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Direccion</span><span style="font-size:13px;font-weight:600;color:#1a1a2e">'+d.direccion+'</span></td></tr>'
     +'</table></td></tr>'
     +'<tr><td style="padding:0 32px 20px">'
-    +'<p style="margin:0 0 10px;font-size:9px;font-weight:700;text-transform:uppercase;color:#7d5596;border-bottom:2px solid #f3edf7;padding-bottom:6px">Condiciones de Contratacion</p>'
+    +'<p style="margin:0 0 10px;font-size:9px;font-weight:700;text-transform:uppercase;color:#7d5596;border-bottom:2px solid #f3edf7;padding-bottom:6px">Contratacion</p>'
     +'<table width="100%" cellpadding="0" cellspacing="6">'
-    +'<tr>'
-    +'<td style="width:48%;padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Fecha de Contratacion</span><span style="font-size:13px;font-weight:600;color:#1a1a2e">'+ d.fechaContratacion +'</span></td>'
-    +'<td style="padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Jornada</span><span style="font-size:13px;font-weight:600;color:#1a1a2e">'+ d.jornada +'</span></td>'
-    +'</tr>'
+    +'<tr><td style="width:48%;padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Fecha</span><span style="font-size:13px;font-weight:600;color:#1a1a2e">'+d.fechaContratacion+'</span></td>'
+    +'<td style="padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Jornada</span><span style="font-size:13px;font-weight:600;color:#1a1a2e">'+d.jornada+'</span></td></tr>'
     +'<tr><td colspan="2" style="padding:5px 0"><span style="display:block;font-size:9px;color:#9ca3af">Salario Ofrecido</span>'
-    +'<span style="font-size:18px;font-weight:800;color:#4a1f60">'+ d.salario +'</span></td></tr>'
+    +'<span style="font-size:18px;font-weight:800;color:#4a1f60">'+d.salario+'</span></td></tr>'
     +'</table></td></tr>'
     +'<tr><td style="padding:0 32px 24px">'
-    +'<p style="margin:0 0 8px;font-size:9px;font-weight:700;text-transform:uppercase;color:#7d5596;border-bottom:2px solid #f3edf7;padding-bottom:6px">Carnet de Manipulacion de Alimentos</p>'
-    + carnetTag
-    +'</td></tr>'
+    +'<p style="margin:0 0 8px;font-size:9px;font-weight:700;text-transform:uppercase;color:#7d5596;border-bottom:2px solid #f3edf7;padding-bottom:6px">Carnet de Manipulacion</p>'
+    +carnetTag+'</td></tr>'
     +'<tr><td style="background:#280532;padding:14px 32px;text-align:center">'
     +'<p style="margin:0;font-size:10px;color:#9d7ab8">Oakberry Latam &middot; Recursos Humanos</p>'
-    +'<p style="margin:3px 0 0;font-size:9px;color:#6b4e8a">Generado automaticamente &middot; No responder</p>'
     +'</td></tr>'
     +'</table></td></tr></table></body></html>';
 }
@@ -350,35 +398,30 @@ function buildHtml(d) {
 function buildTexto(d) {
   return 'ALTA DE COLABORADOR - Oakberry Latam\n'
     +'================================================\n'
-    +'Nombre completo    : '+ d.nombre +'\n'
-    +'Cedula / DIMEX     : '+ d.cedula +'\n'
-    +'Estado civil       : '+ d.estadoCivil +'\n'
-    +'Direccion          : '+ d.direccion +'\n'
-    +'------------------------------------------------\n'
-    +'Fecha contratacion : '+ d.fechaContratacion +'\n'
-    +'Jornada            : '+ d.jornada +'\n'
-    +'Salario ofrecido   : '+ d.salario +'\n'
-    +'------------------------------------------------\n'
-    +'Foto perfil        : '+ (d.fotoB64   ? 'Adjunta' : 'No adjunta') +'\n'
-    +'Carnet manipulacion: '+ (d.carnetB64 ? 'Adjunto' : 'No adjunto') +'\n'
+    +'Nombre          : '+d.nombre+'\n'
+    +'Cedula / DIMEX  : '+d.cedula+'\n'
+    +'Estado civil    : '+d.estadoCivil+'\n'
+    +'Direccion       : '+d.direccion+'\n'
+    +'Fecha contrat.  : '+d.fechaContratacion+'\n'
+    +'Jornada         : '+d.jornada+'\n'
+    +'Salario         : '+d.salario+'\n'
+    +'Foto perfil     : '+(d.fotoB64?'Adjunta':'No adjunta')+'\n'
+    +'Carnet manip.   : '+(d.carnetB64?'Adjunto':'No adjunto')+'\n'
     +'================================================\n'
-    +'Enviado: '+ new Date().toLocaleString('es-CR', { timeZone: 'America/Costa_Rica' });
+    +'Enviado: '+new Date().toLocaleString('es-CR',{timeZone:'America/Costa_Rica'});
 }
 
-// ── SUBMIT ────────────────────────────────────────────────────
 document.getElementById('colabForm').addEventListener('submit', function(e) {
   e.preventDefault();
-  if (!validar()) {
-    var el = document.querySelector('.has-error input,.has-error select,.has-error textarea');
-    if (el) el.focus();
-    return;
+  if(!validar()){
+    var el=document.querySelector('.has-error input,.has-error select,.has-error textarea');
+    if(el) el.focus(); return;
   }
+  var btn=document.getElementById('btnSubmit');
+  btn.disabled=true;
+  btn.innerHTML='<span class="spinner"></span> Enviando…';
 
-  var btn = document.getElementById('btnSubmit');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>Enviando…';
-
-  var datos = {
+  var datos={
     nombre:            document.getElementById('nombre').value.trim(),
     cedula:            document.getElementById('cedula').value.trim(),
     estadoCivil:       document.getElementById('estadoCivil').value,
@@ -390,52 +433,44 @@ document.getElementById('colabForm').addEventListener('submit', function(e) {
     carnetB64:         carnetB64,
   };
 
-  var payload = {
-    asunto:      '[Oakberry] Alta de Colaborador: ' + datos.nombre,
-    htmlBody:    buildHtml(datos),
-    textoPlano:  buildTexto(datos),
-    datos:       datos,
-    fotoBase64:  fotoB64,
-    carnetBase64:carnetB64,
-  };
-
-  fetch(GAS_URL, {
-    method:  'POST',
-    mode:    'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify(payload)
+  fetch(GAS_URL,{
+    method:'POST', mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      asunto:'[Oakberry] Alta de Colaborador: '+datos.nombre,
+      htmlBody:buildHtml(datos),
+      textoPlano:buildTexto(datos),
+      datos:datos,
+      fotoBase64:fotoB64,
+      carnetBase64:carnetB64,
+    })
   })
-  .then(function() {
-    document.getElementById('formView').style.display = 'none';
-    document.getElementById('successView').style.display = 'block';
-    document.getElementById('successMsg').innerHTML =
-      'El alta de <strong>' + datos.nombre + '</strong> fue enviada a RRHH.<br>'
-      + 'Fecha de contrataci&oacute;n: <strong>' + datos.fechaContratacion + '</strong>';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  .then(function(){
+    document.getElementById('formView').style.display='none';
+    document.getElementById('successView').style.display='block';
+    document.getElementById('successMsg').innerHTML=
+      'El alta de <strong>'+datos.nombre+'</strong> fue enviada a RRHH.<br>'
+      +'Fecha de contrataci&oacute;n: <strong>'+datos.fechaContratacion+'</strong>';
+    window.scrollTo({top:0,behavior:'smooth'});
   })
-  .catch(function(err) {
-    console.error(err);
-    alert('Error al enviar. Intentá de nuevo.');
-  })
-  .finally(function() {
-    btn.disabled = false;
-    btn.textContent = 'Enviar alta de colaborador →';
+  .catch(function(err){ console.error(err); alert('Error al enviar. Intentá de nuevo.'); })
+  .finally(function(){
+    btn.disabled=false;
+    btn.innerHTML='<svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:white;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Enviar alta de colaborador';
   });
 });
 
-function reiniciar() {
+function reiniciar(){
   document.getElementById('colabForm').reset();
-  fotoB64 = ''; carnetB64 = '';
+  fotoB64=''; carnetB64='';
   document.getElementById('areaFoto').classList.remove('has-file');
   document.getElementById('areaCarnet').classList.remove('has-file');
-  var prev = document.getElementById('fotoPreview');
-  var plac = document.getElementById('fotoPlaceholder');
-  prev.classList.remove('visible');
-  prev.src = '';
-  plac.style.display = 'flex';
-  document.getElementById('successView').style.display = 'none';
-  document.getElementById('formView').style.display = 'block';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  var prev=document.getElementById('fotoPreview');
+  prev.classList.remove('visible'); prev.src='';
+  document.getElementById('fotoPlaceholder').style.display='flex';
+  document.getElementById('successView').style.display='none';
+  document.getElementById('formView').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 </script>
 </body>
